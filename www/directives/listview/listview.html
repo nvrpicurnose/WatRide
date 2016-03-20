@@ -1,0 +1,21 @@
+<ion-view>
+	<ion-content>
+
+		<div class='list'>
+			<div class='item' ng-repeat='trip in refined_trips' ng-click='openTripModal(trip);'>
+				{{trip.fromResult}}
+				<i class='ion-arrow-right-c'></i>
+				{{trip.toResult}}
+
+    			<span class="badge">{{trip.timeResult}}</span>
+			</div>
+		</div>
+
+		<ion-infinite-scroll
+		    on-infinite="loadMoreTrips()"
+		    distance="1%"
+		    icon='ion-loading-c'>
+		</ion-infinite-scroll>
+
+	</ion-content>
+</ion-view>

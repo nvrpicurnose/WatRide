@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+
+     <!-- Google Map Libraries -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7ns9oZqT8wRVwEXXGmmY2eUMnrdaumvw&libraries=places&sensor=false"></script>
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+    <script src="rootJS/libs/openfb.js"></script>
+    <script src="rootJS/libs/ngopenfb.js"></script>
+
+    <!-- rootJS -->
+    <script src="rootJS/appRoot.js"></script>
+    <script src="rootJS/appRoutes.js"></script>
+
+    <!-- directive controllers -->
+    <script src="directives/listview/listview.js"></script>
+    <script src="directives/mapview/mapview.js"></script>
+    <script src="directives/profileview/profileview.js"></script>
+
+    <!-- services -->
+    <script src="services/Trip-factory.js"></script>
+    <script src="services/Map-factory.js"></script>
+
+  </head>
+  <body ng-app="watride">
+    <!--
+      The nav bar that will be updated as we navigate between views.
+    -->
+    <ion-nav-bar class="bar-stable">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+    </ion-nav-bar>
+    <!--
+      The views will be rendered in the <ion-nav-view> directive below
+      Templates are in the /templates folder (but you could also
+      have templates inline in this html file if you'd like).
+    -->
+    <ion-nav-view></ion-nav-view>
+  </body>
+
+  <script>
+     // Defaults to sessionStorage for storing the Facebook token
+     //openFB.init({appId: '588285624658122'});
+    //  Uncomment the line below to store the Facebook token in localStorage instead of sessionStorage
+    //  openFB.init({appId: 'YOUR_FB_APP_ID', tokenStore: window.localStorage});
+    
+    function share() {
+        ngFB.api(
+          "372772186164295/feed",
+              function (response) {
+                if (response && !response.error) {
+                  /* handle the result */
+                  console.log(response);
+                }
+              }
+          );
+        /*openFB.api({
+            method: 'POST',
+            path: '/me/feed',
+            params: {
+                message: document.getElementById('Message').value || 'Testing Facebook APIs'
+            },
+            success: function() {
+                alert('the item was posted on Facebook');
+            },
+            error: errorHandler});*/
+    }
+    function readPermissions() {
+        openFB.api({
+            method: 'GET',
+            path: '/me/permissions',
+            success: function(result) {
+                alert(JSON.stringify(result.data));
+            },
+            error: errorHandler
+        });
+    }
+    function revoke() {
+        openFB.revokePermissions(
+                function() {
+                    alert('Permissions revoked');
+                },
+                errorHandler);
+    }
+    function errorHandler(error) {
+        alert(error.message);
+    }
+</script>
+
+</html>
